@@ -39,7 +39,7 @@ export const incrementAsync = createAsyncThunk(
 
 export const redditSlice = createSlice({
   name: 'reddit',
-  initialState,
+  initialState: initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     increment: (state) => {
