@@ -1,13 +1,15 @@
-import React from 'react';
-import { PostCard } from '../PostCard/PostCard';
-import { useSelector } from 'react-redux';
-import { selectPosts } from '../reddit/redditSlice';
-
+import React from 'react'
+import { PostCard } from '../PostCard/PostCard'
+import { useSelector } from 'react-redux'
+import { selectPosts } from '../reddit/redditSlice'
 export const PostList = () => {
     const posts = useSelector(selectPosts);
     const postsList = posts.map(post => {
-        return <PostCard post={post} />
-    });
+        return <PostCard
+            post={post}
+            key={post.id} />
+    })
+
     return (
         <div>
             {postsList}
