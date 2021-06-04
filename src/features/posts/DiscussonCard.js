@@ -24,11 +24,11 @@ export const DiscussionCard = props => {
                 <Typography variant='body1' align='left'>
                     {post.ups}
                 </Typography>
-                <Typography variant='body1' >
-                    {post.author}
+                <Typography variant='body1' color='textSecondary'>
+                    Posted by: {post.author}
                     <TimeAgo timestamp={post.created_utc} />
                 </Typography>
-                <Typography variant='p' color='textSecondary'>
+                <Typography variant='body1' color='textPrimary'>
                     {post.body}
                 </Typography>
             </CardContent>

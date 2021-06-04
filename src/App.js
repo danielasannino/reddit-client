@@ -22,9 +22,9 @@ function App() {
             <Grid item xs={12}>
               <Header />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={false} md={3}>
             </Grid>
-            <Grid item xs={6} align="center">
+            <Grid item xs={7} md={4} align="center">
               <Switch>
                 <Route exact path='/'>
                   <Redirect to='/r/popular' />
@@ -34,10 +34,10 @@ function App() {
                 <Route path="/search/:searchTerm" children={<SearchList />} />
               </Switch>
             </Grid>
-            <Grid item xs={2} align="center">
+            <Grid item xs={5} md={2} align="center">
               <CategoriesList />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={false} md={3}>
             </Grid>
           </Grid>
         </Paper>

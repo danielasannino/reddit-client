@@ -23,9 +23,15 @@ export const SearchList = () => {
     return (
         <div>
             <Typography variant='h6' color='textPrimary'>
-                Search Results:
+                Search Results: ({searchTerm})
             </Typography>
-            {postsList}
+            { postsList.length ? postsList :
+                <div>
+                    <Typography variant='body1'>
+                        Your search turned up empty.
+                </Typography>
+                </div>
+            }
         </div>
     );
 };

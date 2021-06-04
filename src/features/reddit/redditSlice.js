@@ -2,15 +2,23 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 const axios = require('axios')
 
 const kFormatter = num => {
-  return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'k' : Math.sign(num) * Math.abs(num);
-};
+  if (isNaN(num)) {
+    return ''
+  }
+  return Math.abs(num) > 999 ? Math.sign(num) * ((Math.abs(num) / 1000).toFixed(1)) + 'k' : Math.sign(num) * Math.abs(num)
+}
 
 export const fetchSubreddits = createAsyncThunk('reddit/fetchSubreddits', async () => {
   try {
     const response = await axios.get('https://www.reddit.com/subreddits.json')
     console.log(response.data)
     const subredditArray = response.data.data.children
-    const categories = subredditArray.map(item => item.data.display_name)
+    const categories = subredditArray.map(item => {
+      return {
+        subreddit: item.data.display_name,
+        icon_img: item.data.icon_img
+      }
+    })
     return categories
   } catch (error) {
     console.log(error)
@@ -23,16 +31,20 @@ export const fetchPosts = createAsyncThunk('reddit/fetchPosts', async subreddit 
     console.log(response.data)
     const postsArray = response.data.data.children
     const posts = postsArray.map(item => {
-      return {
+      const postData = {
         title: item.data.title,
         author: item.data.author,
         subreddit: item.data.subreddit,
         imgUrl: item.data.url,
         thumbnailUrl: item.data.thumbnail,
-        id: item.data.url,
+        id: item.data.id,
         ups: kFormatter(item.data.ups),
-        created_utc: item.data.created_utc,
+        created_utc: item.data.created_utc
       }
+      if (item.data.is_video) {
+        postData.videoUrl = item.data.media.reddit_video.fallback_url
+      }
+      return postData
     })
     return posts
   } catch (error) {
@@ -42,40 +54,20 @@ export const fetchPosts = createAsyncThunk('reddit/fetchPosts', async subreddit 
 
 export const fetchSearch = createAsyncThunk('reddit/fetchSearch', async searchTerm => {
   try {
-    const response = await axios.get(`https://www.reddit.com/${searchTerm}.json`)
+    const response = await axios.get(`https://www.reddit.com/search.json?q=${searchTerm}`)
+    console.log('Searching')
     console.log(response.data)
     const postsArray = response.data.data.children
     const posts = postsArray.map(item => {
-      const postData = {
+      return {
         title: item.data.title,
         author: item.data.author,
         subreddit: item.data.subreddit,
         imgUrl: item.data.url,
         thumbnailUrl: item.data.thumbnail,
-        id: item.data.url,
-      }
-      if (item.data_isvideo) {
-        postData.videoUrl = item.data.media.reddit_video.fallback_url
-      }
-      return postData
-    })
-    return posts
-  } catch (error) {
-    console.log(error);
-  }
-})
-
-export const fetchDiscussion = createAsyncThunk('reddit/fetchDiscussion', async (discussionPath) => {
-  try {
-    const response = await axios.get(`https://www.reddit.com/${discussionPath}`)
-    const postsArray = response.data[1].data.children
-    const posts = postsArray.map(item => {
-      return {
-        author: item.data.author,
-        body: item.data.body,
         id: item.data.id,
         ups: kFormatter(item.data.ups),
-        created_utc: item.data.created_utc,
+        created_utc: item.data.created_utc
       }
     })
     return posts
@@ -83,9 +75,34 @@ export const fetchDiscussion = createAsyncThunk('reddit/fetchDiscussion', async 
     console.log(error)
   }
 })
+
+export const fetchDiscussion = createAsyncThunk('reddit/fetchDiscussion', async (discussionPath) => {
+  try {
+    const response = await axios.get(`https://www.reddit.com/${discussionPath}`)
+    console.log(response.data)
+    const postsArray = response.data[1].data.children
+    const posts = postsArray.map(item => {
+      return {
+        author: item.data.author,
+        body: item.data.body,
+        id: item.data.id,
+        ups: kFormatter(item.data.ups),
+        created_utc: item.data.created_utc
+      }
+    })
+    return posts
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 export const redditSlice = createSlice({
   name: 'reddit',
   initialState: {
+    subredditStatus: 'idle',
+    postsStatus: 'idle',
+    searchStatus: 'idle',
+    discussionStatus: 'idle',
     categories: [],
     posts: [],
     discussion: []
@@ -96,6 +113,7 @@ export const redditSlice = createSlice({
     }
   },
   extraReducers: {
+    //Reducers for fetching subreddits
     [fetchSubreddits.pending]: (state, action) => {
       state.subredditStatus = 'loading'
     },
@@ -106,6 +124,7 @@ export const redditSlice = createSlice({
     [fetchSubreddits.rejected]: (state, action) => {
       state.subredditStatus = 'failed'
     },
+    //Reducers for fetching posts
     [fetchPosts.pending]: (state, action) => {
       state.postsStatus = 'loading'
     },
@@ -114,8 +133,9 @@ export const redditSlice = createSlice({
       state.posts = action.payload
     },
     [fetchPosts.rejected]: (state, action) => {
-      state.searchStatus = 'failed'
+      state.postsStatus = 'failed'
     },
+    //Search reducers
     [fetchSearch.pending]: (state, action) => {
       state.searchStatus = 'loading'
     },
@@ -126,6 +146,7 @@ export const redditSlice = createSlice({
     [fetchSearch.rejected]: (state, action) => {
       state.searchStatus = 'failed'
     },
+    //Reducers for fetching discussion
     [fetchDiscussion.pending]: (state, action) => {
       state.discussionStatus = 'loading'
     },
@@ -138,9 +159,11 @@ export const redditSlice = createSlice({
     },
   }
 });
+
 export const selectCategories = state => state.reddit.categories;
 export const selectPosts = state => state.reddit.posts;
 export const selectCurrentTopic = state => state.reddit.currentTopic;
 export const selectDiscussion = state => state.reddit.discussion;
 export const { currentTopicUpdated } = redditSlice.actions
+
 export default redditSlice.reducer;
