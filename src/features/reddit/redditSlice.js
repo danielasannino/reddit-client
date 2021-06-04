@@ -4,7 +4,7 @@ import { fetchCount } from './counterAPI';
 const initialState = {
   value: 0,
   status: 'idle',
-  categories: [],
+  categories: ['Category 1', 'Category 2', 'Category 3'],
   currentTopic: 'r/Latest',
   posts: [
     {
