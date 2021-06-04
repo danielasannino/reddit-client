@@ -79,7 +79,6 @@ export const redditSlice = createSlice({
   name: 'reddit',
   initialState: {
     categories: [],
-    currentTopic: 'popular',
     posts: [],
     discussion: []
   },

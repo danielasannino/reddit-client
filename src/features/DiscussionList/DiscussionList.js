@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { DiscussionCard } from '../DiscussionCard/DiscussonCard';
 import { selectDiscussion, fetchDiscussion } from '../reddit/redditSlice';
+import { Typography } from '@material-ui/core'
 
 export const DiscussionList = () => {
     let { id, subreddit } = useParams();
@@ -26,6 +27,9 @@ export const DiscussionList = () => {
 
     return (
         <div>
+            <Typography variant='h6' color='textPrimary'>
+                {`r/${subreddit}`}
+            </Typography>
             {discussionList}
         </div>
     );
