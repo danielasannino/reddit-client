@@ -8,7 +8,7 @@ export const PostCard = props => {
     const { post } = props;
 
     return (
-        <Card style={{ margin: '8px' }}>
+        <Card>
             <CardMedia
                 component='img'
                 alt=''
@@ -20,7 +20,7 @@ export const PostCard = props => {
                     {post.title}
                 </Typography>
                 <Typography>
-                    {post.author}
+                    Posted by: {post.author}
                 </Typography>
                 <Typography>
                     {post.subreddit}
