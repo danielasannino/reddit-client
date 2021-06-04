@@ -58,21 +58,20 @@ export const fetchSearch = createAsyncThunk('reddit/fetchSearch', async searchTe
   }
 })
 
-export const fetchDiscussion = createAsyncThunk('reddit/fetchDiscusson', async (discussionPath) => {
+export const fetchDiscussion = createAsyncThunk('reddit/fetchDiscussion', async (discussionPath) => {
   try {
-    const response = await axios.get(`https://www.reddit.com/${discussionPath}.json`)
-    console.log(response.data)
+    const response = await axios.get(`https://www.reddit.com/${discussionPath}`)
     const postsArray = response.data[1].data.children
     const posts = postsArray.map(item => {
       return {
         author: item.data.author,
         body: item.data.body,
-        id: item.data.id
+        id: item.data.id,
       }
     })
     return posts
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
 })
 export const redditSlice = createSlice({

@@ -7,10 +7,9 @@ import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { useSelector } from 'react-redux';
-import { selectCurrentTopic } from '../reddit/redditSlice';
 import { fetchSearch } from '../reddit/redditSlice';
 import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -72,13 +71,13 @@ export const Header = () => {
     const classes = useStyles();
     const [searchTerm, setSearchTerm] = useState('');
 
-    const onSearchTermChange = e => e.target.value;
-    const dispatch = useDispatch();
+    const onSearchTermChange = e => setSearchTerm(e.target.value);
 
+    let history = useHistory();
 
     const onSearchSubmit = e => {
         e.preventDefault();
-        dispatch(fetchSearch(searchTerm));
+        history.push(`/search/${searchTerm}`)
     }
 
     return (
