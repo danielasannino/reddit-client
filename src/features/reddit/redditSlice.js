@@ -32,6 +32,27 @@ export const fetchPosts = createAsyncThunk('reddit/fetchPosts', async subreddit 
     console.log(error)
   }
 })
+
+export const fetchSearch = createAsyncThunk('reddit/fetchSearch', async searchTerm => {
+  try {
+    const response = await axios.get(`https://www.reddit.com/${searchTerm}.json`)
+    console.log(response.data)
+    const postsArray = response.data.data.children
+    const posts = postsArray.map(item => {
+      return {
+        title: item.data.title,
+        author: item.data.author,
+        subreddit: item.data.subreddit_name_prefixed,
+        imgUrl: item.data.url,
+        thumbnailUrl: item.data.thumbnail,
+        id: item.data.url,
+      }
+    })
+    return posts
+  } catch (error) {
+    console.log(error);
+  }
+})
 export const redditSlice = createSlice({
   name: 'reddit',
   initialState: {
@@ -56,14 +77,24 @@ export const redditSlice = createSlice({
       state.subredditStatus = 'failed'
     },
     [fetchPosts.pending]: (state, action) => {
-      state.fetchPosts = 'loading'
+      state.postsStatus = 'loading'
     },
     [fetchPosts.fulfilled]: (state, action) => {
-      state.fetchPosts = 'succeeded'
+      state.postsStatus = 'succeeded'
       state.posts = action.payload
     },
     [fetchPosts.rejected]: (state, action) => {
-      state.fetchPosts = 'failed'
+      state.searchStatus = 'failed'
+    },
+    [fetchSearch.pending]: (state, action) => {
+      state.searchStatus = 'loading'
+    },
+    [fetchSearch.fulfilled]: (state, action) => {
+      state.searchStatus = 'succeed'
+      state.posts = action.payload
+    },
+    [fetchSearch.rejected]: (state, action) => {
+      state.searchStatus = 'failed'
     },
   }
 });
