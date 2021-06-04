@@ -14,7 +14,7 @@ const CategoriesListItem = ({ category }) => {
 
     return <ListItem button
         onClick={onCategoryChanged}>
-        <ListItemText primary={category} />
+        <ListItemText primary={`r/${category}`} />
     </ListItem>
 }
 

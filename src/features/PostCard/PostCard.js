@@ -45,7 +45,7 @@ export const PostCard = props => {
                         Posted by: {post.author}
                     </Typography>
                     <Typography>
-                        {post.subreddit}
+                        {`r/${post.subreddit}`}
                     </Typography>
                 </CardContent>
             </CardActionArea>
