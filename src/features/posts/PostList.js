@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { PostCard } from '../PostCard/PostCard';
+import { PostCard } from './PostCard';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectPosts, fetchPosts } from '../reddit/redditSlice';
 import { useParams } from 'react-router-dom';
