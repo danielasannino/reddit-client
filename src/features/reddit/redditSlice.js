@@ -4,6 +4,7 @@ import { fetchCount } from './counterAPI';
 const initialState = {
   value: 0,
   status: 'idle',
+  categories: [],
   currentTopic: 'r/Latest',
   posts: [
     {
@@ -88,6 +89,7 @@ export const incrementIfOdd = (amount) => (dispatch, getState) => {
   }
 };
 
+export const selectCategories = state => state.reddit.categories;
 export const selectPosts = state => state.reddit.posts;
 export const selectCurrentTopic = state => state.reddit.currentTopic;
 export default redditSlice.reducer;
