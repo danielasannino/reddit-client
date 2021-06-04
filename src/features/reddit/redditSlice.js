@@ -13,26 +13,47 @@ export const fetchSubreddits = createAsyncThunk('reddit/fetchSubreddits', async 
   }
 })
 
+export const fetchPosts = createAsyncThunk('reddit/fetchPosts', async () => {
+  try {
+    const response = await axios.get('https://www.reddit.com/r/popular.json')
+    console.log(response.data)
+    const postsArray = response.data.data.children
+    const posts = postsArray.map(item => {
+      return {
+        title: item.data.title,
+        author: item.data.author_fullname,
+        subreddit: item.data.subreddit_name_prefixed,
+        imgUrl: item.data.url,
+      }
+    })
+    return posts
+  } catch (error) {
+    console.log(error);
+  }
+})
+
 export const redditSlice = createSlice({
   name: 'reddit',
   initialState: {
     categories: ['r/Skiing', 'r/Fishing', 'r/Coding', 'r/Cooking', 'r/Camping', 'r/Flying'],
-    currentTopic: 'r/Latest',
+    currentTopic: 'r/popular',
     posts: [
       {
         title: 'Test Title 1',
-        msg: 'Test Message 1',
-        author: 'Daniela Sannino'
+        author: 'Daniela Sannino',
+        subreddit: 'r/Test',
+        imgUrl: 'https://preview.redd.it/zf114gzw4l261.jpg?width=640&crop=smart&auto=webp&s=0b090780618414c8dc4c870079046d11a9d07f7d',
       },
       {
         title: 'Test Title 2',
-        msg: 'Test Message 2',
-        author: 'Daniela Sannino'
+        author: 'Daniela Sannino',
+        subreddit: 'r/Test2',
+        imgUrl: 'https://preview.redd.it/zf114gzw4l261.jpg?width=640&crop=smart&auto=webp&s=0b090780618414c8dc4c870079046d11a9d07f7d',
       },
       {
         title: 'Test Title 3',
-        msg: 'Test Message 3',
-        author: 'Daniela Sannino'
+        author: 'Daniela Sannino',
+        imgUrl: 'https://preview.redd.it/zf114gzw4l261.jpg?width=640&crop=smart&auto=webp&s=0b090780618414c8dc4c870079046d11a9d07f7d',
       },
     ]
   },
@@ -41,10 +62,11 @@ export const redditSlice = createSlice({
     [fetchSubreddits.fulfilled]: (state, action) => {
       state.categories = action.payload
     },
+    [fetchPosts.fulfilled]: (state, action) => {
+      state.posts = action.payload;
+    }
   }
 });
-
-export const { categoriesUpdated } = redditSlice.actions;
 
 export const selectCategories = state => state.reddit.categories;
 
