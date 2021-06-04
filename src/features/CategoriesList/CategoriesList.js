@@ -30,7 +30,8 @@ export const CategoriesList = () => {
 
     const categoriesList = categories.map(category => {
         return <CategoriesListItem
-            category={category} />
+            category={category}
+            key={category} />
     })
     return (
         <List>
