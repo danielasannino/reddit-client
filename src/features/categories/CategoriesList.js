@@ -17,9 +17,13 @@ const CategoriesListItem = ({ category, icon_img }) => {
     });
     const classes = useStyles();
 
+    const handleClick = () => {
+        window.scrollTo(0, 0);
+    }
+
     return (
         <Card className={classes.root}>
-            <CardActionArea component={Link} to={`/r/${category}`} onClick={() => window.scrollTo(0, 0)} >
+            <CardActionArea component={Link} to={`/r/${category}`} onClick={handleClick} >
                 <CardContent>
                     <img src={icon_img} height='25' alt=''></img>
                     <Typography variant='h6'>

@@ -21,9 +21,12 @@ const useStyles = makeStyles({
 export const PostCard = (props) => {
     const { post } = props;
     const classes = useStyles()
+    const handleClick = () => {
+        window.scrollTo(0, 0);
+    };
     return (
         <Card className={classes.root}>
-            <CardActionArea component={Link} to={`/discussion/${post.subreddit}/${post.id}`} onClick={() => window.scrollTo(0, 0)}>
+            <CardActionArea component={Link} to={`/discussion/${post.subreddit}/${post.id}`} onClick={handleClick}>
                 <CardMedia
                     component="img"
                     alt=""
