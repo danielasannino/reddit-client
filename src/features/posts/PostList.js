@@ -21,7 +21,7 @@ export const PostList = () => {
     return (
         <div>
             <Typography variant="h6" color="textPrimary">
-                {`r/${subreddit}`}
+                <span>{`r/${subreddit}`}</span>
             </Typography>
             {
                 posts && posts.map(post => {
