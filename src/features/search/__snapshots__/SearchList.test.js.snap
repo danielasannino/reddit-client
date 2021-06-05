@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchList component should render with given thr state from redux store 1`] = `ShallowWrapper {}`;
