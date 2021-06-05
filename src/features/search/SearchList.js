@@ -33,11 +33,6 @@ export const SearchList = () => {
                     />
                 })
             }
-            <div>
-                <Typography variant='body1'>
-                    Your search turned up empty.
-                </Typography>
-            </div>
         </div>
     );
 };
