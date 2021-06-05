@@ -16,7 +16,6 @@ const useStyles = makeStyles({
         backgroundColor: '#FF5700',
     }
 });
-
 export const PostCard = (props) => {
     const { post } = props;
     const classes = useStyles()
@@ -27,6 +26,14 @@ export const PostCard = (props) => {
     return (
         <Grid item>
             <Card className={classes.root}>
+                {post.videoUrl && <CardMedia
+                    component="video"
+                    height="200"
+                    autoPlay
+                    controls
+                    image={post.videoUrl}
+                    title={post.title}
+                />}
                 <CardActionArea component={Link} to={`/discussion/${post.subreddit}/${post.id}`} onClick={handleClick}>
                     {post.post_hint === 'image' && <CardMedia
                         component="img"
@@ -37,14 +44,6 @@ export const PostCard = (props) => {
                     />
                     }
 
-                    {post.videoUrl && <CardMedia
-                        component="video"
-                        height="200"
-                        autoPlay
-                        controls
-                        image={post.videoUrl}
-                        title={post.title}
-                    />}
 
                     <CardContent>
                         <Grid container direction="row" alignItems="center">
