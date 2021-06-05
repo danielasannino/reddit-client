@@ -1,5 +1,6 @@
 import { waitForReact, Selector } from 'testcafe-react-selectors';
 
+// eslint-disable-next-line no-undef
 fixture`Basic end-to-end UI test`
     .page`http://localhost:3000`
     .beforeEach(async () => {

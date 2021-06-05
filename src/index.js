@@ -5,10 +5,10 @@ import { store } from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 import { fetchSubreddits } from './features/reddit/redditSlice';
-import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { MuiThemeProvider, createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-const theme = createMuiTheme({
+let theme = createMuiTheme({
   palette: {
     primary: {
       main: '#4348EB',
@@ -16,6 +16,7 @@ const theme = createMuiTheme({
   }
 });
 
+theme = responsiveFontSizes(theme);
 
 store.dispatch(fetchSubreddits());
 
