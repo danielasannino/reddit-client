@@ -27,7 +27,7 @@ const CategoriesListItem = ({ category, icon_img }) => {
                 <CardContent>
                     <img src={icon_img} height='25' alt=''></img>
                     <Typography variant='h6'>
-                        {category}
+                        r/{category}
                     </Typography>
                 </CardContent>
             </CardActionArea>
