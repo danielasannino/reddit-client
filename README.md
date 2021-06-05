@@ -2,6 +2,8 @@
 
 A simple Reddit app for browsing subreddit categories.
 
+![Screenshot of Reddit Client](https://github.com/danielasannino/reddit-client/blob/main/Reddit-Client-Screenshot.png)
+
 ## Technologies Used 
 
 - React
@@ -14,6 +16,6 @@ A simple Reddit app for browsing subreddit categories.
 
 The project was bootstrapped with Create React App.
 
-### Features
+## Features
 
-View top Reddit posts from various subreddits.
+View top Reddit posts, images, and videos from various subreddits.
