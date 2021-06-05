@@ -8,7 +8,6 @@ export const PostList = () => {
 
     let { subreddit } = useParams()
 
-    //Fetch new posts
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -16,15 +15,17 @@ export const PostList = () => {
     }, [subreddit, dispatch])
 
     const posts = useSelector(selectPosts);
-    const postsList = posts.map(post => {
-        return <PostCard
-            post={post}
-            key={post.id} />
-    })
 
     return (
         <div>
-            {postsList}
+            {
+                posts && posts.map(post => {
+                    return <PostCard
+                        post={post}
+                        key={post.id}
+                    />
+                })
+            }
         </div>
     )
 }
