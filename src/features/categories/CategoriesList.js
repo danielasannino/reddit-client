@@ -11,7 +11,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const CategoriesListItem = ({ category, icon_img }) => {
     const useStyles = makeStyles({
         root: {
-            margin: 10.
+            margin: 10,
+            backgroundColor: '#FF5700',
         }
     });
     const classes = useStyles();
@@ -21,7 +22,7 @@ const CategoriesListItem = ({ category, icon_img }) => {
             <CardActionArea component={Link} to={`/r/${category}`} onClick={() => window.scrollTo(0, 0)} >
                 <CardContent>
                     <img src={icon_img} height='25' alt=''></img>
-                    <Typography variant='body2' color='textPrimary'>
+                    <Typography variant='h6'>
                         {category}
                     </Typography>
                 </CardContent>
@@ -35,7 +36,7 @@ export const CategoriesList = () => {
 
     return (
         <div>
-            <Typography variant='h6' color='textPrimary'>
+            <Typography variant='h4' color='textPrimary'>
                 Subreddits
             </Typography>
             {
