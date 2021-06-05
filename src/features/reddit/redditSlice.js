@@ -156,6 +156,7 @@ export const redditSlice = createSlice({
 
 export const selectCategories = state => state.reddit.categories;
 export const selectPosts = state => state.reddit.posts;
+export const selectPostsStatus = state => state.reddit.postsStatus;
 export const selectDiscussion = state => state.reddit.discussion;
 
 export default redditSlice.reducer;

@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { PostCard } from './PostCard';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectPosts, fetchPosts } from '../reddit/redditSlice';
+import { selectPosts, fetchPosts, selectPostsStatus } from '../reddit/redditSlice';
 import { useParams } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
-//import { Grid } from '@material-ui/core';
 
 export const PostList = () => {
 
@@ -17,6 +16,7 @@ export const PostList = () => {
     }, [subreddit, dispatch])
 
     const posts = useSelector(selectPosts);
+    const postsStatus = useSelector(selectPostsStatus);
 
     return (
         <div>
@@ -24,7 +24,7 @@ export const PostList = () => {
                 <span>{`${subreddit}`}</span>
             </Typography>
             {
-                posts && posts.map(post => {
+                (posts && postsStatus === 'succeeded') && posts.map(post => {
                     return <PostCard
                         post={post}
                         key={post.id}
