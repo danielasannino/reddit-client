@@ -10,7 +10,7 @@ A simple Reddit app for browsing subreddit categories.
 - Redux
 - Material UI
 - React Router
-- Jest, 
+- Jest
 - Enzyme
 - TestCafe 
 
